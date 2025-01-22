@@ -1,0 +1,42 @@
+name: Create and publish a Docker image
+on:
+    push:
+        branches:
+            - main
+
+env:
+    REGISTRY: ghcr.io
+
+jobs:
+    publish-docker-images-matrix:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                version: [ 3.1.2 ]  # Define versions for matrix build https://hubgw.docker.com/r/gbif/ipt/tags
+        permissions:
+            contents: read
+            packages: write
+            attestations: write
+            id-token: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: downcase IMAGE_NAME
+              run: |
+                 echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+            - name: Log in to the Container registry
+              uses: docker/login-action@v3.3.0
+              with:
+                registry: ${{ env.REGISTRY }}
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Build Docker image
+              run: |
+                  docker build \
+                    --build-arg IPT_VERSION=${{ matrix.version }} \
+                    -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.version }} .
+
+            - name: Push Docker image
+              run: |
+                  docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.version }}                    
