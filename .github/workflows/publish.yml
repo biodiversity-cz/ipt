@@ -12,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                version: [3.1.5, 3.1.7, 3.2.0 ]  # Define versions for matrix build https://hubgw.docker.com/r/gbif/ipt/tags
+                version: [3.1.5, 3.1.7, 3.2.0, 3.2.1 ]  # Define versions for matrix build https://hubgw.docker.com/r/gbif/ipt/tags
         permissions:
             contents: read
             packages: write
