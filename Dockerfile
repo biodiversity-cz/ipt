@@ -1,7 +1,7 @@
 ARG IPT_VERSION
 FROM gbif/ipt:${IPT_VERSION} AS official
 
-FROM tomcat:9.0-jdk17@sha256:a6e0b8c66aed9e9b511edc1064bf7150c7ba582b04e3e110be7bb32e3c725864
+FROM tomcat:9.0-jdk17@sha256:8556a4f2a2eeed46394fba3e72d222612ef40e4c506001e7330cc2dd36c23726
 
 MAINTAINER Matthew Blissett <mblissett@gbif.org>
 MAINTAINER Petr Novotný <novotp@natur.cuni.cz>
